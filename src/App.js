@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { Component } from 'react'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import ContactsList from "./ContactsList"
+import ContactItem from "./ContactItem"
+import Navbar from './Navbar'
+import Home from "./Home"
+import { parseSignature } from 'sshpk';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+class App extends Component {
+  render() {
+
+    return (
+      <div className="App">
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route exact path='/' element={<Home />}/>
+            <Route exact path='/contacts' render={routeProps => <ContactsList contacts={this.state.contacts} {...routeProps}/>}/>
+            <Route path="/contacts/:contactId" render={routeProps => {
+              const contact = this.state.contacts.find(contact => contact.id === parseSignature(routeProps.match.params.contactId))
+              return <ContactItem {...routeProps} {...contact} />
+            }}/>
+          </Routes>
+        </Router>
+      </div>
+    )
+
+  }
+
 }
 
 export default App;
