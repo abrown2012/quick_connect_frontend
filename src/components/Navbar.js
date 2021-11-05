@@ -15,6 +15,9 @@ const Navbar = ({title, icon}) => {
                 <li>
                     <NavLink to='/about'>About</NavLink>
                 </li>
+                <li>
+                    <NavLink to='/new_contact'>Add New Contact</NavLink>
+                </li>
             </ul>
         </div>
     )

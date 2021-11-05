@@ -6,20 +6,16 @@ import ContactItem from "./components/ContactItem"
 import Navbar from './components/Navbar'
 import Home from "./components/Home"
 import About from "./components/About"
+import ContactForm from './containers/ContactForm';
 import { parseSignature } from 'sshpk';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import {addContact, removeContact, fetchContacts} from "./actions/contacts"
 
 
 class App extends Component {
 
   componentDidMount() {
-    return fetch("http://localhost:3000/contacts")
-    .then(resp => resp.json())
-    .then(json => {
-      debugger
-    })
-
+    this.props.fetchContacts()
   }
 
 
@@ -33,7 +29,8 @@ class App extends Component {
           <Routes>
             <Route exact path='/' element={<Home />}/>
             <Route exact path='/about' element={<About />}/>
-            <Route exact path='/contacts' render={routeProps => <ContactsList contacts={this.props.contacts} {...routeProps}/>}/>
+            <Route exact path='/new_contact' element={<ContactForm />}/>
+            <Route exact path="/contacts" render={routeProps => <ContactsList contacts={this.props.contacts} {...routeProps}/>}/>  
             <Route path="/contacts/:contactId" render={routeProps => {
               const contact = this.props.contacts.find(contact => contact.id === parseSignature(routeProps.match.params.contactId))
               return <ContactItem {...routeProps} {...contact} />
@@ -55,6 +52,7 @@ const mapStateToProps = (currentState) => {
   }
 }
 
+
 const mapDispatch = (dispatch, ownProps) => {
   return {
     addContact: (contact) => dispatch(addContact(contact)),
@@ -62,5 +60,7 @@ const mapDispatch = (dispatch, ownProps) => {
     fetchContacts: (contacts) => dispatch(fetchContacts(contacts))
   }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatch)(App);
