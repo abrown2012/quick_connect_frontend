@@ -8,7 +8,7 @@ import Home from "./components/Home"
 import About from "./components/About"
 import { parseSignature } from 'sshpk';
 import { connect } from 'react-redux'
-import {addContact, removeContact, fetchContacts} from "../actions/contacts"
+import {addContact, removeContact, fetchContacts} from "./actions/contacts"
 
 
 class App extends Component {
@@ -49,8 +49,18 @@ class App extends Component {
 
 const mapStateToProps = (currentState) => {
   return {
-    contacts: currentState.contacts 
+    contacts: currentState.contacts.contacts,
+    loading: currentState.contacts.loading,
+    error: currentState.contacts.error
   }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatch = (dispatch, ownProps) => {
+  return {
+    addContact: (contact) => dispatch(addContact(contact)),
+    removeContact: (contactId) => dispatch(removeContact(contactId)),
+    fetchContacts: (contacts) => dispatch(fetchContacts(contacts))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatch)(App);
