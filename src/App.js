@@ -1,15 +1,28 @@
 import './App.css';
 import React, { Component } from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import ContactsList from "./ContactsList"
-import ContactItem from "./ContactItem"
-import Navbar from './Navbar'
-import Home from "./Home"
+import ContactsList from "./components/ContactsList"
+import ContactItem from "./components/ContactItem"
+import Navbar from './components/Navbar'
+import Home from "./components/Home"
+import About from "./components/About"
 import { parseSignature } from 'sshpk';
-
+import { connect } from 'react-redux'
 
 
 class App extends Component {
+
+  componentDidMount() {
+    return fetch("http://localhost:3000/contacts")
+    .then(resp => resp.json())
+    .then(json => {
+      debugger
+    })
+
+  }
+
+
+
   render() {
 
     return (
@@ -18,9 +31,10 @@ class App extends Component {
           <Navbar />
           <Routes>
             <Route exact path='/' element={<Home />}/>
-            <Route exact path='/contacts' render={routeProps => <ContactsList contacts={this.state.contacts} {...routeProps}/>}/>
+            <Route exact path='/about' element={<About />}/>
+            <Route exact path='/contacts' render={routeProps => <ContactsList contacts={this.props.contacts} {...routeProps}/>}/>
             <Route path="/contacts/:contactId" render={routeProps => {
-              const contact = this.state.contacts.find(contact => contact.id === parseSignature(routeProps.match.params.contactId))
+              const contact = this.props.contacts.find(contact => contact.id === parseSignature(routeProps.match.params.contactId))
               return <ContactItem {...routeProps} {...contact} />
             }}/>
           </Routes>
@@ -32,4 +46,10 @@ class App extends Component {
 
 }
 
-export default App;
+const mapStateToProps = (currentState) => {
+  return {
+    contacts: currentState.contacts 
+  }
+}
+
+export default connect(mapStateToProps)(App);
