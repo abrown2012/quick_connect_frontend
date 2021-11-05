@@ -8,6 +8,7 @@ import Home from "./components/Home"
 import About from "./components/About"
 import { parseSignature } from 'sshpk';
 import { connect } from 'react-redux'
+import {addContact, removeContact, fetchContacts} from "../actions/contacts"
 
 
 class App extends Component {
