@@ -7,8 +7,7 @@ class ContactForm extends PureComponent {
         name: "",
         email: "",
         phone: "",
-        isFormSubmitted: false,
-        completed: false
+        user_id: 1
     }
 
     handleChange = (e) => {
@@ -31,11 +30,12 @@ class ContactForm extends PureComponent {
         .then(json => this.props.addContact(json))
     }
 
+
     handleSubmit = (e) => {
         e.preventDefault()
-        const slicedState = this.pick("name", "email", "phone", "completed")(this.state)
-        this.props.addContact({...slicedState, completionTime: null})
-        this.setState({name: "", email: "", phone: "", isFormSubmitted: true, completed: false})
+        const slicedState = this.pick("name", "email", "phone", "user_id")(this.state)
+        this.props.addContact({...slicedState})
+        this.setState({name: "", email: "", phone: ""})
     }
 
     render() {
