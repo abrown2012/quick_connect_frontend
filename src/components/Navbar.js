@@ -19,7 +19,7 @@ const Navbar = ({title, icon}) => {
                     <NavLink to='/contacts/new'>Add New Contact</NavLink>
                 </li>
                 <li>
-                    <NavLink to='/users/new'>Sign Up</NavLink>
+                    <NavLink to='/login'>Log In </NavLink>
                 </li>
             </ul>
         </div>

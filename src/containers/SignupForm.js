@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import {Redirect} from 'react-router-dom'
+import axios from 'axios'
 
 class SignupForm extends PureComponent {
     state = {
@@ -40,7 +41,7 @@ class SignupForm extends PureComponent {
     render() {
         return (
             <div className="container">
-            <h3 className="form-title">Create a new contact</h3>
+            <h3 className="form-title">Create a new account below:</h3>
                 <div className="row">
                     <div className="col-md-8 col-md-offset-2">
                         <div className="panel panel-default">
