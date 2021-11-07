@@ -9,9 +9,13 @@ import Home from '../components/Home';
 import About from '../components/About';
 import ErrorPage from '../components/ErrorPage'
 import ContactForm from './ContactForm';
+import SignupForm from './SignupForm';
 import {connect} from "react-redux"
-import LoadingIndicator from '../components/LoadingIndicator';
-import {fetchContacts, addContact, removeContact} from "../actions/index"
+
+
+
+// import LoadingIndicator from '../components/LoadingIndicator';
+import {fetchContacts, addContact, addUser, fetchUsers, removeContact} from "../actions/index"
 
 class App extends Component {
 
@@ -20,13 +24,13 @@ class App extends Component {
   }
 
   render() {
-    if (!!this.props.loading) {
-      return <LoadingIndicator/>
-    }
+    // if (!!this.props.loading) {
+    //   return <LoadingIndicator/>
+    // }
 
-    if (!!this.props.error) {
-      return <ErrorPage error={this.props.error} />
-    }
+    // if (!!this.props.error) {
+    //   return <ErrorPage error={this.props.error} />
+    // }
 
     return (
       <div className="App">
@@ -37,6 +41,7 @@ class App extends Component {
             <Route exact path="/about" component={About} /> 
             <Route exact path="/contacts" render={routeProps => <ContactsList contacts={this.props.contacts} {...routeProps}/>}/>  
             <Route exact path="/contacts/new" render={routeProps => <ContactForm {...routeProps} addContact={this.props.addContact} />}/>
+            <Route exact path="/users/new" render={routeProps => <SignupForm {...routeProps} addUser={this.props.addUser} />}/>
             <Route path="/contacts/:contactId" render={routeProps => {
               const contact = this.props.contacts.find(contact => String(contact.id) === routeProps.match.params.contactId)
               return (!!contact) ? (
@@ -56,8 +61,11 @@ class App extends Component {
 const mapStateToProps = (currentState) => {
   return {
     contacts: currentState.contacts.contacts,
-    loading: currentState.contacts.loading,
-    error: currentState.contacts.error
+    // loading: currentState.contacts.loading,
+    // error: currentState.contacts.error, 
+    users: currentState.users.users, 
+
+
   }
 }
 
@@ -65,7 +73,9 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     addContact: (contact) => dispatch(addContact(contact)),
     removeContact: (contactId) => dispatch(removeContact(contactId)),
-    fetchContacts: (contacts) => dispatch(fetchContacts(contacts))
+    fetchContacts: (contacts) => dispatch(fetchContacts(contacts)), 
+    addUser: (user) => dispatch(addUser(user)),
+    fetchUser: (users) => dispatch(fetchUsers(users)),
   }
 }
 

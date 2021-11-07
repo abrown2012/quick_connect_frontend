@@ -10,10 +10,7 @@ const arrayEquals = (a, b) => {
 
   const pick = (...selectedArgs) => obj =>  selectedArgs.reduce((acc, attr) => ({...acc, [attr]: obj[attr]}), {})
 
-const defaultState = [
-    {name: 'John Smith', email: 'john@email.com', phone: '555-666-3333', user_id: 1, id: 6},
-    {name: 'Sara Brown', email: 'sara@icloud.com', phone: '111-222-3333', user_id: 1, id: 9}
-]
+
 
 const checkContactFormat = (payload) => {
     const isObject = Object.prototype.toString.call(payload) === '[object Object]'
