@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types'
-import ContactItem from './ContactItem'
+import ContactItem from "./ContactItem"
 
-const ContactsList = (props) => {
-    const renderContacts = () => {
-        return props.ContactsList.map(contact => <ContactItem {...contact} key={contact.id}/>)
+const ContactsList = ({contacts, history}) => {
+
+    const renderMissingContacts = () => {
+        
+        return contacts.map(contact => <ContactItem {...contact} history={history} key={contact.id} />)
     }
+
     return (
-        <> 
+        <>
             <h1>Contacts</h1>
-            {renderContacts()}
+            {renderMissingContacts()}
         </>
     )
 }

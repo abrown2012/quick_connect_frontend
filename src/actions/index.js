@@ -1,1 +1,1 @@
-export { addContact, removeContact } from "./contacts"
+export {fetchContacts, addContact, removeContact} from "./contacts"

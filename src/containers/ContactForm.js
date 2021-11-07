@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import {useNavigate} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 class ContactForm extends PureComponent {
     state = {
@@ -30,18 +30,15 @@ class ContactForm extends PureComponent {
         .then(json => this.props.addContact(json))
     }
 
-
     handleSubmit = (e) => {
         e.preventDefault()
         const slicedState = this.pick("name", "email", "phone", "user_id")(this.state)
+      
         this.props.addContact({...slicedState})
-        this.setState({name: "", email: "", phone: ""})
+        this.setState({name: "", email: "", phone: "", user_id: "" })
     }
 
     render() {
-        if (!!this.state.isFormSubmitted) {
-            return <useNavigate push to="/contacts"/>
-        }
         return (
             <div className="container">
             <h3 className="form-title">Create a new contact</h3>
@@ -51,7 +48,7 @@ class ContactForm extends PureComponent {
                             <div className="panel-body">
                                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                                     <div className="form-group">
-                                        <label htmlFor="title" className="col-md-4 control-label">Name</label>
+                                        <label htmlFor="name" className="col-md-4 control-label">Name</label>
                                         <div className="col-md-5">
                                         <input
                                             className="form-control"
@@ -64,23 +61,21 @@ class ContactForm extends PureComponent {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="body" className="col-md-4 control-label">Email</label>
+                                        <label htmlFor="email" className="col-md-4 control-label">Email</label>
                                         <div className="col-md-5">
                                             <textarea
                                                 className="form-control"
                                                 name="email"
-                                                type="email"
                                                 value={this.state.email}
                                                 onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="body" className="col-md-4 control-label">Phone</label>
+                                        <label htmlFor="phone" className="col-md-4 control-label">Phone</label>
                                         <div className="col-md-5">
                                             <textarea
                                                 className="form-control"
-                                                type="text"
                                                 name="phone"
                                                 value={this.state.phone}
                                                 onChange={this.handleChange}

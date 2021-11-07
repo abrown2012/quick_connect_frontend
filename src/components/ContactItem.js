@@ -1,46 +1,27 @@
-import React, {useContext} from 'react';
-import PropTypes from 'prop-types'
-import ContactContext from '../context/contact/contactContext';
-import {REMOVE_CONTACT, SET_CURRENT } from '../actions/actionTypes';
+import { Link } from 'react-router-dom';
+const ContactItem = ({id, name, email, phone, history, removeContact}) => {
 
-const ContactItem = ({contact}) => {
-    const contactContext = useContext(ContactContext);
-    const {deleteContact, setCurrent, clearCurrent} = contactContext;
-    const {id, name, email, phone} = contact;
-    
-    const onDelete = () => {
-        deleteContact(id);
-        clearCurrent();
+    const handleClick = () => {
+        removeContact(id)
+        history.push("/contacts")
     }
 
+    const handleCompleteChange = () => {
+        history.push("/contacts")
+    }
+
+    const conditionalTitle = () => history.location.pathname === "/contacts" ? <Link to={`/contacts/${id}`}><h3>{name}</h3></Link> : <h3>{name}</h3>
+    const conditionalButtons = () => history.location.pathname === "/contacts" ? <></> : <button className="btn btn-danger" onClick={() => handleClick()}>Delete</button>
+    
     return (
-        <div className='card bg-light'>
-            <h3 className="text-primary text-left">
-                {name}{' '} 
-            </h3>
-            <ul className="list">
-                {email && (
-                    <li>
-                        <i className="fas fa-envelope-open-text"></i> {email}
-                    </li>
-                )}
-                {phone && (
-                    <li>
-                        <i className="fas fa-phone-alt"></i> {phone}
-                    </li>
-                )}
-            </ul>
-            <p>
-                <button className='btn btn-dark btn-sm' onClick={() => setCurrent(contact)}>Edit</button>
-                <button className='btn btn-danger btn-sm' onClick={onDelete}>Delete</button>
-            </p>
+        <div id={`contact-${id}`}>
+            {conditionalTitle()}
+      
+            <p>{email}</p>
+            <p>{phone}</p>
+            {conditionalButtons()}
         </div>
     )
 }
 
-ContactItem.propTypes = {
-    contact: PropTypes.object.isRequired 
-}
-
-
-export default ContactItem 
+export default ContactItem;
